@@ -25,7 +25,6 @@ builder.Services
 
 builder.Services.AddControllersWithViews();
 
-
 builder.Services.AddScoped<IHomeRepository, dbHomeRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IUserOrderRepository, UserOrderRepository>();
