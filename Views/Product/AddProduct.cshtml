@@ -1,0 +1,80 @@
+﻿@model ProductDTO
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            <div>
+                <h1 class="h4 fw-bold text-white mb-1">Add Product</h1>
+                <div class="text-white-50 small">Create a new product for your catalog.</div>
+            </div>
+
+            <a asp-action="Index"
+               asp-controller="Product"
+               class="btn btn-emerald-outline">
+                Back
+            </a>
+        </div>
+
+        <div class="cart-card p-3 p-md-4" style="max-width:620px;">
+
+            <form asp-action="AddProduct" method="post" enctype="multipart/form-data" class="control-dark">
+
+                <div class="form-floating mb-3">
+                    <input type="text"
+                           class="form-control"
+                           asp-for="ProductName"
+                           placeholder="Product name" />
+                    <label asp-for="ProductName">Product *</label>
+                    <span asp-validation-for="ProductName" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text"
+                           class="form-control"
+                           asp-for="Description"
+                           placeholder="Description" />
+                    <label asp-for="Description">Description *</label>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select class="form-select"
+                            asp-for="CategoryId"
+                            asp-items="Model.CategoryList">
+                        <option value="">Select Category</option>
+                    </select>
+                    <label asp-for="CategoryId">Category *</label>
+                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="number"
+                           class="form-control"
+                           asp-for="Price"
+                           placeholder="Price" />
+                    <label asp-for="Price">Price *</label>
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white-50">Product Image</label>
+                    <input type="file"
+                           class="form-control"
+                           asp-for="ImageFile" />
+                </div>
+
+                <button type="submit" class="btn btn-emerald w-100">
+                    Add Product
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

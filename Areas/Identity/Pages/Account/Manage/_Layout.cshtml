@@ -1,0 +1,47 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            <div>
+                <h1 class="h4 fw-bold text-white mb-1">Manage your account</h1>
+                <div class="text-white-50 small">Change your account settings</div>
+            </div>
+
+            <a asp-area="" asp-controller="Home" asp-action="Landing" class="btn btn-emerald-outline">
+                Back to Home
+            </a>
+        </div>
+
+        <div class="cart-card p-3 p-md-4">
+            <div class="row g-4">
+
+                <div class="col-md-3">
+                    <div class="about-card p-3">
+                        <partial name="_ManageNav" />
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

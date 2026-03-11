@@ -1,0 +1,161 @@
+﻿@model IEnumerable<Order>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            <div>
+                <h1 class="h4 fw-bold text-white mb-1">My Orders</h1>
+                <div class="text-white-50 small">View your orders and their items.</div>
+            </div>
+
+            <a asp-controller="Home" asp-action="Landing" class="btn btn-emerald-outline">
+                Back
+            </a>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="cart-card p-3 p-md-4">
+                <div class="table-responsive">
+                    <table class="table table-dark mb-0"
+                           style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
+                        <thead>
+                            <tr>
+                                <th style="min-width:160px;">Order Date</th>
+                                <th style="min-width:180px;">Order Status</th>
+                                <th style="min-width:180px;">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                var hasDetails = order.OrderDetail != null && order.OrderDetail.Count > 0;
+                                var collapseId = $"order_{order.OrderId}";
+
+                                <tr>
+                                    <td class="text-white">
+                                        @order.CreatedAt.ToString("dd-MM-yyyy")
+                                    </td>
+
+                                    <td>
+                                        <span class="badge"
+                                              style="background: rgba(34,197,94,.14); border: 1px solid rgba(34,197,94,.35); color: #fff;">
+                                            @order.OrderStatus.StatusName
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        @if (hasDetails)
+                                        {
+                                            <button class="btn btn-emerald-outline"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#@collapseId"
+                                                    aria-expanded="false"
+                                                    aria-controls="@collapseId">
+                                                View details
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-white-50 small">No details</span>
+                                        }
+                                    </td>
+                                </tr>
+
+                                @if (hasDetails)
+                                {
+                                    <tr class="collapse" id="@collapseId">
+                                        <td colspan="3">
+                                            <div class="about-card p-3 p-md-4 mt-2">
+
+                                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                                                    <div class="text-white-50 small">
+                                                        Total
+                                                    </div>
+                                                    <div class="h5 fw-bold text-white mb-0">
+                                                        @(order.OrderDetail.Select(item => item.Product.Price * item.Quantity).Sum()) ₪
+                                                    </div>
+                                                </div>
+
+                                                <div class="table-responsive">
+                                                    <table class="table table-dark mb-0"
+                                                           style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="min-width:200px;">Item</th>
+                                                                <th style="width:120px;">Image</th>
+                                                                <th style="min-width:160px;">Category</th>
+                                                                <th style="min-width:180px;">Unit Price</th>
+                                                                <th style="min-width:140px;">Total</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @foreach (var item in order.OrderDetail)
+                                                            {
+                                                                <tr>
+                                                                    <td class="text-white fw-semibold">
+                                                                        @item.Product.ProductName
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @if (string.IsNullOrEmpty(item.Product.Image))
+                                                                        {
+                                                                            <img src="/images/NoImage.png" class="product-thumb" alt="No image" />
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <img src="/images/@item.Product.Image" class="product-thumb" alt="@item.Product.ProductName" />
+                                                                        }
+                                                                    </td>
+
+                                                                    <td class="text-white-50">
+                                                                        @item.Product.Category.CategoryName
+                                                                    </td>
+
+                                                                    <td class="text-white">
+                                                                        <span class="text-white-50">@item.Product.Price ₪</span>
+                                                                        <span class="text-white-50"> × </span>
+                                                                        <span class="fw-semibold">@item.Quantity</span>
+                                                                    </td>
+
+                                                                    <td class="text-white fw-semibold">
+                                                                        @(item.Product.Price* item.Quantity) ₪
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+                <div class="text-center">
+                    <h1 class="fw-bold display-6 text-white mb-2">No Orders</h1>
+                    <p class="cart-muted mb-4">You haven’t placed any orders yet.</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-emerald px-4">
+                        Start Shopping
+                    </a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

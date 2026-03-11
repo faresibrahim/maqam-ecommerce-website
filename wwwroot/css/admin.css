@@ -1,0 +1,293 @@
+﻿:root {
+    --admin-bg: #0f0f10;
+    --admin-surface: #171717;
+    --admin-surface-2: #1d1d1f;
+    --admin-border: rgba(255, 255, 255, 0.08);
+    --admin-text: #ffffff;
+    --admin-muted: rgba(255, 255, 255, 0.65);
+    --admin-accent: #16a34a;
+    --admin-accent-hover: #15803d;
+    --admin-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.28);
+    --admin-sidebar-width: 260px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    font-family: inherit;
+}
+
+.admin-body {
+    background: var(--admin-bg);
+    color: var(--admin-text);
+}
+
+.admin-shell {
+    min-height: 100vh;
+    display: flex;
+    background: var(--admin-bg);
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: var(--admin-sidebar-width);
+    background: #111111;
+    border-right: 1px solid var(--admin-border);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-shrink: 0;
+    z-index: 1030;
+}
+
+.admin-brand {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-brand-link {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.admin-brand-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(22, 163, 74, 0.16);
+    border: 1px solid rgba(22, 163, 74, 0.35);
+    color: #fff;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    text-decoration: none;
+    color: var(--admin-muted);
+    padding: .8rem .9rem;
+    border-radius: 14px;
+    transition: .18s ease;
+    border: 1px solid transparent;
+}
+
+    .admin-nav-link i {
+        font-size: 1rem;
+    }
+
+    .admin-nav-link:hover {
+        background: rgba(255,255,255,0.04);
+        color: #fff;
+        border-color: var(--admin-border);
+    }
+
+    .admin-nav-link.active {
+        background: rgba(22, 163, 74, 0.14);
+        border-color: rgba(22, 163, 74, 0.3);
+        color: #fff;
+    }
+
+.admin-sidebar-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--admin-border);
+}
+
+/* Main area */
+.admin-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--admin-border);
+    background: rgba(17,17,17,0.9);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.admin-page-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.admin-content {
+    padding: 1.5rem;
+}
+
+/* Cards / sections */
+.admin-card {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 18px;
+    box-shadow: var(--admin-shadow);
+    padding: 1.25rem;
+}
+
+.admin-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: .25rem;
+}
+
+.admin-card-subtitle {
+    color: var(--admin-muted);
+    font-size: .9rem;
+}
+
+/* Buttons */
+.btn-admin {
+    background: var(--admin-accent);
+    border-color: var(--admin-accent);
+    color: #fff;
+}
+
+    .btn-admin:hover,
+    .btn-admin:focus {
+        background: var(--admin-accent-hover);
+        border-color: var(--admin-accent-hover);
+        color: #fff;
+    }
+
+.btn-admin-outline {
+    background: transparent;
+    border: 1px solid rgba(22, 163, 74, 0.45);
+    color: #22c55e;
+}
+
+    .btn-admin-outline:hover,
+    .btn-admin-outline:focus {
+        background: rgba(22, 163, 74, 0.12);
+        border-color: rgba(22, 163, 74, 0.45);
+        color: #22c55e;
+    }
+
+.admin-menu-btn {
+    color: #fff;
+    border: 1px solid var(--admin-border);
+    background: rgba(255,255,255,0.04);
+}
+
+    .admin-menu-btn:hover {
+        color: #fff;
+        background: rgba(255,255,255,0.08);
+    }
+
+/* Tables */
+.admin-table {
+    width: 100%;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+    .admin-table th,
+    .admin-table td {
+        border-color: var(--admin-border) !important;
+        vertical-align: middle;
+    }
+
+    .admin-table thead th {
+        color: rgba(255,255,255,0.88);
+        background: rgba(255,255,255,0.03);
+    }
+
+    .admin-table tbody tr:hover {
+        background: rgba(255,255,255,0.03);
+    }
+
+/* Forms */
+.admin-form .form-control,
+.admin-form .form-select {
+    background: rgba(0,0,0,0.22);
+    border: 1px solid var(--admin-border);
+    color: #fff;
+}
+
+    .admin-form .form-control::placeholder {
+        color: rgba(255,255,255,0.45);
+    }
+
+    .admin-form .form-control:focus,
+    .admin-form .form-select:focus {
+        background: rgba(0,0,0,0.22);
+        color: #fff;
+        border-color: rgba(22, 163, 74, 0.45);
+        box-shadow: 0 0 0 .2rem rgba(22, 163, 74, 0.12);
+    }
+
+.admin-form .form-label,
+.admin-form .form-floating > label {
+    color: rgba(255,255,255,0.65);
+}
+
+/* Badges */
+.admin-badge-success {
+    background: rgba(22, 163, 74, 0.14);
+    border: 1px solid rgba(22, 163, 74, 0.35);
+    color: #fff;
+}
+
+.admin-badge-danger {
+    background: rgba(220, 53, 69, 0.12);
+    border: 1px solid rgba(220, 53, 69, 0.35);
+    color: #fff;
+}
+
+.admin-badge-warning {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.35);
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        position: fixed;
+        left: -100%;
+        transition: left .22s ease;
+        height: 100vh;
+    }
+
+        .admin-sidebar.show {
+            left: 0;
+        }
+
+    .admin-main {
+        width: 100%;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+}

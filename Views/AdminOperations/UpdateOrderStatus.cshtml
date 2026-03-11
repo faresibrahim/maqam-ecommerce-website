@@ -1,0 +1,52 @@
+﻿@model UpdateOrderStatusModel
+@{
+    ViewData["Title"] = "Update Order Status";
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-end mb-3">
+            <div>
+                <h1 class="h4 fw-bold text-white mb-1">Update Order Status</h1>
+                <div class="text-white-50 small">Modify the current status of the selected order.</div>
+            </div>
+
+            <a class="btn btn-emerald-outline" asp-action="AllOrders">
+                Back
+            </a>
+        </div>
+
+        <div class="cart-card p-3 p-md-4" style="max-width:500px;">
+
+            <form asp-action="UpdateOrderStatus" method="post" class="control-dark">
+
+                <input type="hidden" asp-for="OrderId" />
+
+                <div class="form-floating mb-3">
+                    <select class="form-select"
+                            asp-for="OrderStatusId"
+                            asp-items="@Model.OrderStatusList">
+                        <option value="">Select order status</option>
+                    </select>
+                    <label asp-for="OrderStatusId">Order Status</label>
+                </div>
+
+                <button type="submit" class="btn btn-emerald w-100">
+                    Update Status
+                </button>
+
+                @if (TempData["msg"] != null)
+                {
+                    <div class="alert border mt-3"
+                         style="background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.35); color:#fff;">
+                        @TempData["msg"]
+                    </div>
+                }
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

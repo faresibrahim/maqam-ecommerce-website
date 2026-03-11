@@ -1,0 +1,608 @@
+﻿:root {
+    --maqam-dark: #111111;
+    --maqam-dark-2: #161616;
+    --maqam-card: #1c1c1c;
+    --maqam-border: rgba(255, 255, 255, .10);
+    --maqam-muted: rgba(255, 255, 255, .65);
+    --emerald: #10b981;
+    --emerald-hover: #059669;
+    --emerald-light: #22c55e;
+}
+
+
+/* ───── BACKGROUNDS ───── */
+.navbar-charcoal {
+    background-color: var(--maqam-dark) !important;
+}
+
+.bg-maqam-dark {
+    background-color: var(--maqam-dark) !important;
+}
+
+.bg-maqam-dark-2 {
+    background-color: var(--maqam-dark-2) !important;
+}
+
+.page-surface {
+    background: var(--maqam-dark-2);
+}
+
+
+/* ───── BUTTONS ───── */
+.btn-primary {
+    box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .18);
+}
+
+.btn-emerald {
+    background-color: var(--emerald);
+    border-color: var(--emerald);
+    color: #fff;
+}
+
+    .btn-emerald:hover {
+        background-color: var(--emerald-hover);
+        border-color: var(--emerald-hover);
+        color: #fff;
+    }
+
+.btn-emerald-outline {
+    border: 1px solid rgba(34, 197, 94, .65);
+    color: var(--emerald-light);
+    background: transparent;
+}
+
+    .btn-emerald-outline:hover {
+        background: rgba(34, 197, 94, .12);
+        color: var(--emerald-light);
+    }
+
+
+/* ───── PANEL / CONTROLS ───── */
+.panel-dark {
+    background: var(--maqam-card);
+    border: 1px solid var(--maqam-border);
+    border-radius: 16px;
+}
+
+.control-dark .form-select,
+.control-dark .form-control {
+    background: rgba(0, 0, 0, .25);
+    border: 1px solid var(--maqam-border);
+    color: #fff;
+}
+
+    .control-dark .form-select:focus,
+    .control-dark .form-control:focus {
+        border-color: rgba(16, 185, 129, .55);
+        box-shadow: 0 0 0 .2rem rgba(16, 185, 129, .15);
+    }
+
+    .control-dark .form-control::placeholder {
+        color: rgba(255, 255, 255, .55);
+    }
+
+.control-dark .form-floating > label {
+    color: rgba(255, 255, 255, .70) !important;
+}
+
+.control-dark .form-floating > .form-control:focus ~ label {
+    color: rgba(255, 255, 255, .85);
+}
+
+
+/* ───── PRODUCT CARD ───── */
+.product-card {
+    background: var(--maqam-card);
+    border: 1px solid var(--maqam-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+    .product-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .35);
+    }
+
+.product-title {
+    color: #fff;
+}
+
+.product-meta {
+    color: var(--maqam-muted);
+}
+
+.product-thumb {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 8px;
+    border: 1px solid rgba(0, 0, 0, .08);
+}
+
+
+/* ───── HERO ───── */
+.hero-bg {
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* ───── SECTION SHARED ───── */
+.section-label {
+    font-size: 0.63rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--emerald);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+    .section-label::before {
+        content: '';
+        display: inline-block;
+        width: 22px;
+        height: 1px;
+        background: var(--emerald);
+    }
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 4rem;
+    max-width: 500px;
+    color: #fff;
+}
+
+    .section-title em {
+        font-style: italic;
+        color: var(--emerald-light);
+    }
+
+
+/* ───── HOW IT WORKS ───── */
+.how-section {
+    padding: 7rem 0;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--maqam-border);
+    border: 1px solid var(--maqam-border);
+}
+
+.step {
+    background: var(--maqam-dark);
+    padding: 3rem 2.5rem;
+    position: relative;
+    transition: background 0.3s;
+}
+
+    .step:hover {
+        background: #1a1a1a;
+    }
+
+.step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: rgba(255, 255, 255, .08);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s;
+}
+
+.step:hover .step-num {
+    color: rgba(16, 185, 129, .15);
+}
+
+.step-icon {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+}
+
+.step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+    color: #fff;
+}
+
+.step-desc {
+    font-size: 0.75rem;
+    line-height: 1.9;
+    color: var(--maqam-muted);
+}
+
+@media (max-width: 991px) {
+    .steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ───── CATEGORIES ───── */
+.categories-section {
+    padding: 7rem 0;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--maqam-border);
+    border: 1px solid var(--maqam-border);
+    margin-top: 3rem;
+}
+
+.cat-card {
+    background: var(--maqam-dark);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    text-decoration: none;
+    display: block;
+}
+
+    .cat-card:hover {
+        background: #1a1a1a;
+        transform: translateY(-3px);
+    }
+
+.cat-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.cat-name {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--maqam-muted);
+    transition: color 0.2s;
+}
+
+.cat-card:hover .cat-name {
+    color: #fff;
+}
+
+@media (max-width: 991.98px) {
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section-title br {
+        display: none;
+    }
+}
+
+
+/* ───── MISSION ───── */
+.mission-section {
+    padding: 7rem 0;
+    background: #0f0f0f;
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+}
+
+.mission-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.35;
+    color: #fff;
+}
+
+    .mission-quote em {
+        font-style: italic;
+        color: var(--emerald-light);
+    }
+
+    .mission-quote::before {
+        content: '"';
+        font-size: 6rem;
+        color: var(--emerald);
+        opacity: 0.3;
+        display: block;
+        line-height: 0.6;
+        margin-bottom: 1.5rem;
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+.mission-body {
+    font-size: 0.85rem;
+    line-height: 2;
+    color: var(--maqam-muted);
+}
+
+    .mission-body p + p {
+        margin-top: 1.2rem;
+    }
+
+.mission-bg-num {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30vw;
+    color: rgba(255, 255, 255, .015);
+    right: -4vw;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    line-height: 1;
+}
+
+@media (max-width: 991px) {
+    .mission-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .mission-bg-num {
+        font-size: 40vw;
+        right: -10vw;
+    }
+}
+
+
+/* ───── AUTH ───── */
+.auth-surface {
+    background: var(--maqam-dark-2);
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+}
+
+.auth-card {
+    background: var(--maqam-card);
+    border: 1px solid var(--maqam-border);
+    border-radius: 16px;
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .35);
+}
+
+    .auth-card .form-control {
+        background: rgba(0, 0, 0, .25);
+        border: 1px solid var(--maqam-border);
+        color: #fff;
+    }
+
+        .auth-card .form-control:focus {
+            border-color: rgba(16, 185, 129, .55);
+            box-shadow: 0 0 0 .2rem rgba(16, 185, 129, .15);
+        }
+
+        .auth-card .form-control::placeholder {
+            color: rgba(255, 255, 255, .55);
+        }
+
+    .auth-card .form-floating > label {
+        color: rgba(255, 255, 255, .65);
+    }
+
+.auth-link {
+    color: var(--emerald-light);
+    text-decoration: none;
+}
+
+    .auth-link:hover {
+        color: var(--emerald);
+        text-decoration: underline;
+    }
+
+
+/* ───── CART ───── */
+.cart-card {
+    background: var(--maqam-card);
+    border: 1px solid var(--maqam-border);
+    border-radius: 16px;
+}
+
+.cart-table th,
+.cart-table td {
+    border-color: rgba(255, 255, 255, .10) !important;
+    vertical-align: middle;
+}
+
+.cart-table thead th {
+    color: rgba(255, 255, 255, .85);
+    background: rgba(0, 0, 0, .25);
+}
+
+.cart-table tbody tr:hover {
+    background: rgba(255, 255, 255, .03);
+}
+
+.cart-muted {
+    color: var(--maqam-muted) !important;
+}
+
+.qty-btn {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+
+/* ───── ABOUT ───── */
+.about-card {
+    background: var(--maqam-card);
+    border: 1px solid var(--maqam-border);
+    border-radius: 16px;
+}
+
+.about-muted {
+    color: var(--maqam-muted) !important;
+}
+
+.about-divider {
+    border-color: rgba(255, 255, 255, .12) !important;
+}
+
+
+/* ───── MANAGE NAV ───── */
+.manage-nav .nav-link {
+    color: rgba(255, 255, 255, .75) !important;
+    background: transparent !important;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: .6rem .8rem;
+}
+
+    .manage-nav .nav-link:hover {
+        color: #fff !important;
+        background: rgba(255, 255, 255, .04) !important;
+        border-color: rgba(255, 255, 255, .08);
+    }
+
+    .manage-nav .nav-link.active {
+        color: #fff !important;
+        background: rgba(16, 185, 129, .14) !important;
+        border-color: rgba(16, 185, 129, .35) !important;
+    }
+
+
+/* ───── USER DROPDOWN ───── */
+.user-dropdown:hover {
+    background-color: var(--emerald) !important;
+    border-color: var(--emerald) !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.user-dropdown:active,
+.user-dropdown.show {
+    background-color: var(--emerald-hover) !important;
+    border-color: var(--emerald-hover) !important;
+    color: white !important;
+}
+
+.user-dropdown:hover .bi-chevron-down {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease;
+}
+
+
+/* ───── NAVBAR LOGO ───── */
+.maqam-elegant {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 3px;
+    display: inline-block;
+    border-right: 2px solid var(--emerald);
+    padding-right: 12px;
+    margin-right: 8px;
+    position: relative;
+}
+
+    .maqam-elegant::before {
+        content: '♩';
+        position: absolute;
+        top: -5px;
+        right: 8px;
+        font-size: 0.8rem;
+        color: var(--emerald);
+        opacity: 0.7;
+    }
+
+    .maqam-elegant::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background: var(--emerald);
+        border-radius: 2px;
+    }
+
+
+/* ───── ORDERS TABLE ───── */
+.orders-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+    .orders-table th,
+    .orders-table td {
+        word-break: break-word;
+        white-space: normal;
+        font-size: 0.9rem;
+        vertical-align: middle;
+    }
+
+.order-email,
+.order-address {
+    max-width: 160px;
+}
+
+
+/* ───── MISC ───── */
+.custom-placeholder::placeholder {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.custom-placeholder:focus::placeholder {
+    opacity: 1;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Fix browser autofill background on dark inputs */
+.form-floating > .form-control:-webkit-autofill,
+.form-floating > .form-control:-webkit-autofill:hover,
+.form-floating > .form-control:-webkit-autofill:focus,
+.form-floating > .form-control:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    box-shadow: 0 0 0 1000px transparent inset !important;
+    background-color: transparent !important;
+    -webkit-text-fill-color: #fff !important;
+    caret-color: #fff;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+.product-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}

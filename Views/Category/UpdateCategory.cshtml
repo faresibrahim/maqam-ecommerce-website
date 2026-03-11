@@ -1,0 +1,44 @@
+﻿@model CategoryDTO
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Update Category";
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-end mb-3">
+            <div>
+                <h1 class="h4 fw-bold text-white mb-1">Update Category</h1>
+                <div class="text-white-50 small">Edit the category name.</div>
+            </div>
+
+            <a asp-action="Index" asp-controller="Category" class="btn btn-emerald-outline">
+                Back
+            </a>
+        </div>
+
+        <div class="cart-card p-3 p-md-4" style="max-width:500px;">
+
+            <form asp-action="UpdateCategory" method="post" class="control-dark">
+                <input type="hidden" asp-for="CategoryId" />
+
+                <div class="form-floating mb-3">
+                    <input type="text"
+                           class="form-control"
+                           asp-for="CategoryName"
+                           placeholder="Category name" />
+                    <label asp-for="CategoryName">Category</label>
+                    <span asp-validation-for="CategoryName" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-emerald w-100">
+                    Update Category
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,145 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid p-0">
+
+    
+    <section class="hero-bg text-white d-flex align-items-center"
+             style="min-height: 80vh;">
+        <div class="container py-5">
+
+            <p class="section-label mb-3">Palestine's Music Digital Shop</p>
+
+            <h1 class="mb-4" style="font-family:'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.1;">
+                Give your instrument<br>a new <em style="font-style:italic; color:#22c55e;">voice.</em>
+            </h1>
+
+            <p class="mb-5" style="font-size: 0.95rem; color: rgba(255,255,255,0.55); max-width: 420px; line-height: 1.9;">
+                Discover quality instruments at the best prices. Buy and sell used
+                musical instruments across the West Bank.
+            </p>
+
+            <div class="d-flex gap-3 flex-wrap">
+                <a asp-controller="Home" asp-action="Index"
+                   class="btn btn-emerald btn-lg px-4">
+                    Browse Products
+                </a>
+                <a asp-controller="Home" asp-action="About"
+                   class="btn btn-outline-light btn-lg px-4">
+                    Learn More
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section text-white">
+
+        <div class="mission-bg-num">وتر</div>
+
+        <div class="container mission-inner">
+
+            <div class="mission-quote">
+                Music doesn't<br>
+                have to be <em>expensive</em><br>
+                to be beautiful.
+            </div>
+
+            <div class="mission-body" style="font-size: 24px;">
+
+                <p>
+                    Maqam was built for the musicians of Palestine — the self-taught guitarist in Nablus,
+                    the oud player in Hebron passing down tradition, the student in Ramallah who can't
+                    afford a new instrument.
+                </p>
+
+                <p>
+                    Thousands of instruments sit in closets and storage rooms, forgotten.
+                    We believe every one of them deserves to be played again.
+                </p>
+
+                <p>
+                    Our platform connects sellers and buyers across the West Bank —
+                    no middlemen, no complexity. Just music finding new hands.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section text-white">
+
+        <div class="container">
+
+            <div class="section-label">How it works</div>
+
+            <h2 class="section-title">
+                Simple as a<br><em>three-note melody</em>
+            </h2>
+
+            <div class="steps">
+
+                <div class="step">
+                    <div class="step-num">01</div>
+                    <div class="step-icon">📸</div>
+                    <div class="step-title" style=" font-size: 32px;">Send us your instrument!</div>
+                    <div class="step-desc" style=" font-size: 16px;">
+                        Local music shops or individual sellers contact us with photos and details of the instrument
+                        they want to sell. We review it and prepare the listing.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num">02</div>
+                    <div class="step-icon">🔍</div>
+                    <div class="step-title" style=" font-size: 32px;">We publish the product</div>
+                    <div class="step-desc" style=" font-size: 16px;">
+                        Our team uploads the instrument to Maqam with photos,
+                        description, and price so it can be discovered by musicians
+                        across the West Bank.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num">03</div>
+                    <div class="step-icon">🤝</div>
+                    <div class="step-title" style=" font-size: 32px;" >A musician buys it</div>
+                    <div class="step-desc" style=" font-size: 16px;">
+                        Interested buyers contact us to purchase the instrument.
+                        We connect both sides and help complete the sale.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section bg-maqam-dark-2 text-white">
+        <div class="container">
+            <div class="section-label">Browse by category</div>
+            <h2 class="section-title">What are you<br>looking for?</h2>
+
+            <div class=" categories-grid">
+            @foreach(var item in Model)
+            {
+                    <a asp-controller="Home" asp-action="index" asp-route-categoryId="@item.CategoryId"  class="cat-card ">
+                        <span class="cat-icon">@item.Icon</span>
+                        <div class="cat-name">@item.CategoryName</div>
+                    </a>
+            }
+            </div>
+           
+        </div>
+    </section>
+
+</div>

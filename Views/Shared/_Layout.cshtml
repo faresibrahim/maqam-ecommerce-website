@@ -1,0 +1,259 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Musical Instruments Online Store</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/custom.css">
+</head>
+<body class ="d-flex flex-column min-vh-100 navbar-charcoal">
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-charcoal shadow-sm" aria-label="Main navigation">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold"
+                   asp-controller="Home" asp-action="Landing">
+                    @* <span class="d-inline-flex align-items-center justify-content-center rounded-2 bg-white bg-opacity-10"
+                          style="width: 34px; height: 34px;">
+                        <span class="fw-bold">M</span>
+                    </span> *@
+                    <span class=" maqam-elegant">Maqam</span>
+                </a>
+
+                <button class="navbar-toggler border-0 shadow-none" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto gap-lg-1 mt-3 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link px-lg-3 @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+                                                                                 && ViewContext.RouteData.Values["action"]?.ToString() == "Landing"
+                                                                                 ? "active fw-semibold" : "")"
+                               asp-controller="Home" asp-action="Landing">
+                                Home
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link px-lg-3 @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+                                                                                 && ViewContext.RouteData.Values["action"]?.ToString() == "Index"
+                                                                                 ? "active fw-semibold" : "")"
+                               asp-controller="Home" asp-action="Index">
+                                Products
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link px-lg-3" asp-controller ="Home" asp-action ="About" >About</a>
+                        </li>
+
+                        @* @if(User.IsInRole(Roles.Admin.ToString())) {
+
+                        <li class="nav-item">
+                            <a class="nav-link px-lg-3" href="/AdminOperations/AllOrders">Orders</a>
+                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-lg-3" asp-controller ="Category" asp-action="Index">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-lg-3" asp-controller ="Stock" asp-action="Index">Stock</a>
+                            </li>
+                        } *@
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-2 ms-lg-auto mt-3 mt-lg-0">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1">
+   
+    <div class="my-2">
+        <partial name="_Notifications" />
+    </div>
+       @RenderBody()
+   
+    </main>
+
+   
+    @await RenderSectionAsync("Scripts", required: false)
+
+   
+
+    <footer class=" pt-5 pb-4 text-light mt-auto" style="background-color:#111111;"> 
+        <div class="container">
+
+            <div class="row">
+
+                <!-- Brand -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold text-white">Maqam</h5>
+                    <p class="text-secondary small">
+                        A focused digital shop for musicians to buy and sell instruments
+                        with simplicity, clarity, and trust.
+                    </p>
+                </div>
+
+                <!-- Navigation -->
+                <div class="col-md-2 mb-4">
+                    <h6 class="fw-semibold text-white">Navigation</h6>
+                    <ul class="list-unstyled small">
+                        <li>
+                            <a class="text-decoration-none text-secondary"
+                               asp-controller="Home" asp-action="Landing">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-decoration-none text-secondary"
+                               asp-controller="Home" asp-action="Index">
+                                Products
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-decoration-none text-secondary"
+                               asp-controller="Home" asp-action="About">
+                                About
+                            </a>
+                        </li>
+
+                     
+                    </ul>
+                </div>
+
+                <!-- Account -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold text-white">Account</h6>
+                    <ul class="list-unstyled small">
+                        <li>
+                            <a class="text-decoration-none text-secondary"
+                               asp-area="Identity" asp-page="/Account/Login">
+                                Login
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-decoration-none text-secondary"
+                               asp-area="Identity" asp-page="/Account/Register">
+                                Register
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold text-white">Contact</h6>
+                    <p class="text-secondary small mb-1">
+                        Email: fares.a.ibrahim@gmail.com
+                    </p>
+                    <p class="text-secondary small mb-1">
+                        Bethlehem, Palestine
+                    </p>
+                    <p class=" text-secondary small mb-0">
+                        Phone: (+972) 59-233-3972
+                    </p>
+                </div>
+
+            </div>
+
+            <hr style="border-color: rgba(255,255,255,0.1);" />
+
+            <div class="text-center small text-secondary">
+                &copy; @DateTime.Now.Year Maqam Market-Place. All rights reserved.
+            </div>
+
+        </div>
+    </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<script>
+
+
+        loadCartCount();
+        
+        async function loadCartCount(){
+           
+            try {
+                const response = await fetch(`/Cart/GetTotalItemInCart`);
+                console.log(response);
+                if (response.ok) {
+                    const result = await response.json();
+                    const cartCountEl = document.getElementById("cartCount");
+                    if (cartCountEl) {
+                        cartCountEl.innerHTML = result;
+                    }
+                } else {
+                    console.log("Request failed:", response.status);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+            
+
+
+</script>
+</html>
+
+
+
+
+@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MusicShoppingCartMvcUI</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MusicShoppingCartMvcUI.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MusicShoppingCartMvcUI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - MusicShoppingCartMvcUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> *@

@@ -1,0 +1,79 @@
+﻿@model OrderDetailModelDTO
+
+<div class="modal fade" id="modal-@Model.DivId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-0">
+
+            <div class="modal-header border-bottom border-secondary">
+                <h5 class="modal-title fw-semibold">
+                    Order Details
+                </h5>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="table-responsive">
+                    <table class="table table-dark mb-0"
+                           style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Unit Price</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.OrderDetails)
+                            {  
+                                <tr>
+                                    <td class="fw-semibold text-white">
+                                        @item.Product.ProductName
+                                    </td>
+
+                                    <td class="text-white-50">
+                                        @item.Product.CategoryName
+                                    </td>
+
+                                    <td>
+                                        @item.UnitPrice ₪
+                                    </td>
+
+                                    <td>
+                                        @item.Quantity
+                                    </td>
+
+                                    <td class="fw-semibold">
+                                        @(item.Quantity* item.UnitPrice) ₪
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="modal-footer border-top border-secondary">
+                <span class=" me-auto text-white fw-bold">Total price: </span>
+                
+                <button type="button"
+                        class="btn btn-outline-light"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

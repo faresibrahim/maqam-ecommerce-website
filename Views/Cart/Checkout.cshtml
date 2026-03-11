@@ -1,0 +1,89 @@
+﻿@model CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        <div class="mb-3">
+            <h1 class="h4 fw-bold text-white mb-1">Checkout</h1>
+            <div class="text-white-50 small">Enter your details to place the order.</div>
+        </div>
+
+        <div class="cart-card p-3 p-md-4">
+            <form asp-action="Checkout" method="post" class="control-dark">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control custom-placeholder" asp-for="Name" placeholder="Name" />
+                            <label asp-for="Name" class="form-label">Name *</label>
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control custom-placeholder" asp-for="Email" placeholder="Email" />
+                            <label asp-for="Email" class="form-label">Email *</label>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control custom-placeholder" asp-for="MobileNumber" placeholder="Mobile number" />
+                            <label asp-for="MobileNumber" class="form-label">Mobile Number *</label>
+                        </div>
+                        <span asp-validation-for="MobileNumber" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control custom-placeholder" asp-for="Address" placeholder="Address" />
+                            <label asp-for="Address" class="form-label">Address *</label>
+                        </div>
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <select asp-for="PaymentMethod" class="form-select" aria-label="Payment method">
+                                <option value="">Select Payment</option>
+                                @foreach (var method in Enum.GetValues(typeof(MusicShoppingCartMvcUI.Constants.PaymentMethods)))
+                                {
+                                    <option value="@method.ToString()">@method.ToString()</option>
+                                }
+                            </select>
+                            <label asp-for="PaymentMethod" class="form-label">Payment Method *</label>
+                        </div>
+                        <span asp-validation-for="PaymentMethod" class="text-danger small"></span>
+
+                        <div class="text-white-50 small mt-2">
+                            <i class="bi bi-cash-coin me-1"></i>
+                            COD supported depending on the selected method.
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.12);" />
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-controller="Cart" asp-action="GetUserCart" class="btn btn-outline-light px-4">
+                        Back
+                    </a>
+                    <button type="submit" class="btn btn-emerald px-4">
+                        Next
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>

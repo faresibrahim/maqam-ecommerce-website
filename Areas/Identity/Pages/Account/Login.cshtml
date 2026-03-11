@@ -1,0 +1,152 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="auth-surface py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+                <div class="text-center mb-4">
+                    <a class="text-decoration-none d-inline-flex align-items-center gap-2"
+                       asp-area="" asp-controller="Home" asp-action="Landing">
+                       
+                        
+                    </a>
+                </div>
+
+                <div class="auth-card">
+                    <div class="p-4 p-md-5">
+                        <div class="mb-4 text-center">
+                            <h1 class="h3 mb-1 fw-bold text-white">@ViewData["Title"]</h1>
+                            <p class="text-white-50 mb-0">Welcome back. Enter your details to continue.</p>
+                        </div>
+
+                        <form id="account" method="post" class="vstack gap-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                            <div class="form-floating">
+                                <input asp-for="Input.Email"
+                                       class="form-control custom-placeholder"
+                                       placeholder="name@example.com"
+                                       autocomplete="email" 
+                                       />
+                                       
+                                <label asp-for="Input.Email"></label>
+                                <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating position-relative">
+                                <input asp-for="Input.Password"
+                                       class="form-control custom-placeholder"
+                                       placeholder="Password"
+                                       id="passwordField" />
+
+                                <label asp-for="Input.Password">Password</label>
+
+                                <button type="button" class="password-toggle" onclick="togglePassword()">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                                    <label class="form-check-label text-white-50" asp-for="Input.RememberMe">
+                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                    </label>
+                                </div>
+
+                                <a id="forgot-password" class="auth-link" asp-page="./ForgotPassword">
+                                    Forgot password?
+                                </a>
+                            </div>
+
+                            <button id="login-submit" type="submit" class="btn btn-emerald btn-lg w-100">
+                                Log in
+                            </button>
+
+                            <div class="text-center text-white-50 small">
+                                Don’t have an account?
+                                <a class="auth-link" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
+                                    Register
+                                </a>
+                            </div>
+
+                            <div class="text-center">
+                                <a id="resend-confirmation"
+                                   class="text-white-50 text-decoration-none small"
+                                   asp-page="./ResendEmailConfirmation">
+                                    Resend email confirmation
+                                </a>
+                            </div>
+                        </form>
+
+                        <hr class="my-4" style="border-color: rgba(255,255,255,0.12);" />
+
+                        <section>
+                            <h2 class="h6 fw-semibold mb-3 text-white">Or continue with</h2>
+
+                            @{
+                                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                                {
+                                    <div class="alert alert-dark border small mb-0"
+                                         style="border-color: rgba(255,255,255,0.12); background: rgba(0,0,0,0.25); color: rgba(255,255,255,0.75);">
+                                        No external login providers configured.
+                                        See this
+                                        <a href="https://go.microsoft.com/fwlink/?LinkID=532715" class="auth-link">
+                                            article
+                                        </a>
+                                        to set it up.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form id="external-account"
+                                          asp-page="./ExternalLogin"
+                                          asp-route-returnUrl="@Model.ReturnUrl"
+                                          method="post">
+                                        <div class="d-grid gap-2">
+                                            @foreach (var provider in Model.ExternalLogins!)
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-outline-light"
+                                                        name="provider"
+                                                        value="@provider.Name"
+                                                        title="Log in using your @provider.DisplayName account">
+                                                    Continue with @provider.DisplayName
+                                                </button>
+                                            }
+                                        </div>
+                                    </form>
+                                }
+                            }
+                        </section>
+                    </div>
+                </div>
+
+                <p class="text-center text-white-50 small mt-4 mb-0">
+                    <a class="text-decoration-none text-white-50"
+                       asp-area="" asp-controller="Home" asp-action="Landing">← Back to Home</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @*add functionality to the white "reveal password" icon. Just toggle the type from password to text and the contrary.*@
+    <script>
+        function togglePassword() {
+            const field = document.getElementById("passwordField");
+            field.type = field.type === "password" ? "text" : "password";
+        }
+    </script>
+}

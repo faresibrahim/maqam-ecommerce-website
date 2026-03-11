@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav align-items-lg-center gap-1">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link position-relative px-3" href="/Cart/GetUserCart">
+                <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-emerald text-white"
+                      style="font-size: 0.7rem; padding: 0.25rem 0.45rem; background-color: #10b981 !important;">0</span>
+                <i class="bi bi-cart3 fs-5 text-white"></i>
+            </a>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3 py-2 rounded-pill"
+               href="#"
+               id="userDropdown"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false"
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                <i class="bi bi-person-circle text-white"></i>
+                <span class="text-white" id="username">@User.Identity?.Name!</span>
+                @if (User.IsInRole("Admin"))
+                {
+                    <span class="badge bg-emerald ms-1" style="background-color: #10b981 !important; font-size: 0.65rem;">Admin</span>
+                }
+                <i class="bi bi-chevron-down text-white-50" style="font-size: 0.8rem;"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-0 shadow-lg py-2"
+                style="background-color: #1a1a1a; min-width: 200px;"
+                aria-labelledby="userDropdown">
+               
+                <li>
+                    <a class="dropdown-item py-2" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                        <i class="bi bi-gear me-2"></i>Account Settings
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item py-2" asp-controller="UserOrder" asp-action="UserOrders" title="Manage">
+                        <i class="bi bi-box-seam me-2"></i>My Orders
+                    </a>
+                       
+                @if (User.IsInRole(Roles.Admin.ToString()))
+                {
+                
+
+                    <li>
+                        <a class="dropdown-item py-2" asp-controller="AdminOperations" asp-action="Index" title="Manage">
+                            <i class="bi bi-speedometer2 me-2"></i>Admin Panel
+                        </a>
+                    </li>
+                
+                }
+                
+
+                <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.1);"></li>
+                <li>
+                    <form class="form-inline m-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Landing", "Home", new { area = "" })">
+                        <button type="submit" class="dropdown-item py-2 text-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link px-3 d-flex align-items-center gap-2" asp-area="Identity" asp-page="/Account/Register">
+                <i class="bi bi-person-plus"></i>
+                <span>Register</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link px-3 d-flex align-items-center gap-2 btn-emerald text-white rounded-pill"
+               asp-area="Identity" asp-page="/Account/Login"
+               style="background-color: #10b981; padding: 0.375rem 1rem !important;">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Login</span>
+            </a>
+        </li>
+    }
+</ul>
+
+<style>
+    /* Dropdown item hover effect */
+    .dropdown-menu-dark .dropdown-item:hover {
+        background-color: rgba(16, 185, 129, 0.2) !important;
+        color: #10b981 !important;
+    }
+
+    .dropdown-menu-dark .dropdown-item.text-danger:hover {
+        background-color: rgba(220, 53, 69, 0.2) !important;
+        color: #ff6b7b !important;
+    }
+
+    /* User dropdown button hover effect */
+    .nav-item.dropdown:hover .nav-link.dropdown-toggle {
+        background-color: #10b981 !important;
+        border-color: #10b981 !important;
+        transition: all 0.2s ease;
+    }
+
+    /* Cart icon hover effect */
+    .nav-item a[href="/Cart/GetUserCart"]:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+    }
+</style>

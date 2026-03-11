@@ -1,0 +1,141 @@
+﻿@model ShoppingCart
+@{
+    ViewData["Title"] = "GetUserCart";
+}
+
+<div class="page-surface py-4">
+    <div class="container">
+
+        @if (Model != null && Model.CartDetails != null && Model.CartDetails.Count > 0)
+        {
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+                <div>
+                    <h1 class="h4 fw-bold text-white mb-1">My Cart</h1>
+                    <div class="cart-muted small">Review your items before checkout.</div>
+                </div>
+
+                <a asp-controller="Home" asp-action="Index" class="btn btn-emerald-outline">
+                    Continue Shopping
+                </a>
+            </div>
+
+            <div class="cart-card p-3 p-md-4">
+                <div class="table-responsive">
+                    <table class="table cart-table table-dark mb-0" style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
+                        <thead>
+                            <tr>
+                                <th style="min-width: 180px;">Product</th>
+                                <th style="width: 120px;">Image</th>
+                                <th style="min-width: 140px;">Category</th>
+                                <th style="min-width: 160px;">Unit Price (NIS)</th>
+                                <th style="min-width: 140px;">Total</th>
+                                <th style="min-width: 140px;">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.CartDetails)
+                            {
+                                <tr>
+                                    <td class="text-white fw-semibold">
+                                        @item.Product.ProductName
+                                    </td>
+
+                                    <td>
+                                        @if (string.IsNullOrEmpty(item.Product.Image))
+                                        {
+                                            <img src="/images/NoImage.png" alt="No Image" class="product-thumb" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/@item.Product.Image" alt="@item.Product.ProductName" class="product-thumb" />
+                                        }
+                                    </td>
+
+                                    <td class="cart-muted">
+                                        @item.Product.Category.CategoryName
+                                    </td>
+
+                                    <td class="text-white">
+                                        <span class="cart-muted">@item.Product.Price ₪</span>
+                                        <span class="cart-muted"> × </span>
+                                        <span class="fw-semibold">@item.Quantity</span>
+                                    </td>
+
+                                    <td class="text-white fw-semibold">
+                                        @(item.Product.Price* item.Quantity) ₪
+                                    </td>
+
+                                    <td>
+                                       
+                                        <div class="d-flex align-items-center gap-2">
+                                            @if (item.Quantity < item.Product.Stocks.Quantity)
+                                            {
+                                                <a class="btn btn-emerald qty-btn"
+                                                href="/Cart/AddItem?productId=@item.ProductId&&redirect=1"
+                                                title="Increase quantity">
+                                                    +
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <span style=" color: red;border: 1px solid red; padding: 5px 8px;
+                                                border-radius: 5px;">Out of Stock</span>
+
+                                              
+                                            }
+
+                                            <a class="btn btn-outline-light qty-btn"
+                                               href="/Cart/RemoveItem?productId=@item.ProductId"
+                                               title="Decrease quantity">
+                                                −
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.12);" />
+
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div class="text-white">
+                        <div class="cart-muted small">Total</div>
+                        <div class="h4 fw-bold mb-0">
+                            @(Model.CartDetails.Select(item => item.Product.Price * item.Quantity).Sum()) ₪
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light px-4" asp-controller="Home" asp-action="Index">
+                            Back
+                        </a>
+                        <a class="btn btn-emerald px-4" href="/Cart/Checkout">
+                            Checkout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+                <div class="text-center">
+                    <h1 class="fw-bold display-6 text-white mb-2">
+                        Your Cart is Empty
+                    </h1>
+                    <p class="cart-muted mb-4">
+                        Looks like you haven’t added anything yet.
+                    </p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-emerald px-4">
+                        Start Shopping
+                    </a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

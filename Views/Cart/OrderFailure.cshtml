@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Order Failed";
+}
+
+<div class="page-surface py-5">
+    <div class="container">
+
+        <div class="d-flex justify-content-center align-items-center" style="min-height:60vh;">
+            <div class="text-center">
+
+                <div class="mb-4">
+                    <i class="bi bi-check-circle"
+                       style="font-size:70px;color:#22c55e;"></i>
+                </div>
+
+                <h1 class="fw-bold text-white mb-2">
+                    Order failed to be placed
+                </h1>
+
+                <p class="text-white-50 mb-4">
+                    Please try again later.
+                </p>
+
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                    <a asp-controller="UserOrder"
+                       asp-action="UserOrders"
+                       class="btn btn-emerald px-4">
+                        View My Orders
+                    </a>
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="btn btn-outline-light px-4">
+                        Continue Shopping
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
