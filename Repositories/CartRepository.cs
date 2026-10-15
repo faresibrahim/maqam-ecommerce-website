@@ -66,7 +66,7 @@ namespace MusicShoppingCartMvcUI.Repositories
 
                 }
                 _db.SaveChanges();
-                transaction.Commit(); //ask AI about this
+                transaction.Commit();
                 
             }
 

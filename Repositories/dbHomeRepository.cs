@@ -18,7 +18,6 @@ namespace MusicShoppingCartMvcUI.Repositories
             return await _dbContext.Categories.ToListAsync();
         }
 
-        //explain the following function on chatgpt
         public async Task<IEnumerable<Product>> DisplayProducts(string sTerm = "", int categoryId = 0)
         {
             sTerm = sTerm.ToLower();

@@ -1,156 +1,166 @@
-﻿@model ProductDisplayModel
+@using Microsoft.AspNetCore.Identity
+@model ProductDisplayModel
+@inject SignInManager<IdentityUser> SignInManager
 
 @{
-    ViewData["Title"] = "Products Page";
+    ViewData["Title"] = "Products";
+    var isSignedIn = SignInManager.IsSignedIn(User);
+    var productCount = Model.Products?.Count() ?? 0;
+    var activeCategory = Model.Categories?.FirstOrDefault(c => c.CategoryId == Model.CategoryId);
+    var isFiltered = activeCategory != null || !string.IsNullOrWhiteSpace(Model.STerm);
+    var loginUrl = Url.Page("/Account/Login", new { area = "Identity", returnUrl = Context.Request.Path + Context.Request.QueryString });
 }
 
-<div class="page-surface py-4">
+<div class="page-surface pb-5">
     <div class="container">
 
-        <!-- Filter / Search -->
-        <div class="panel-dark p-3 p-md-4 mb-4 control-dark">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                <div>
-                    <h1 class="h4 fw-bold mb-1 text-white">Browse Products</h1>
-                    <div class="small text-white-50">Filter by category or search by title.</div>
-                </div>
+        <header class="page-head">
+            <div>
+                <h1 class="page-title">@(activeCategory?.CategoryName ?? "All instruments")</h1>
+                <p class="page-lede">Every listing is reviewed by our team before it goes live.</p>
+            </div>
+        </header>
+
+        <form asp-action="Index" method="get" class="filter-bar" role="search">
+            <div>
+                <label class="visually-hidden" for="CategoryId">Category</label>
+                <select class="form-select" id="CategoryId" name="categoryId">
+                    <option value="0">All categories</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option selected="@(category.CategoryId == Model.CategoryId)" value="@category.CategoryId">
+                            @category.CategoryName
+                        </option>
+                    }
+                </select>
             </div>
 
-            <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
-                <div class="col-12">
-                    <label class="visually-hidden" for="CategoryId">Genres</label>
-                    <select class="form-select" id="CategoryId" name="categoryId">
-                        <option selected>Category</option>
-                        @foreach (var category in Model.Categories)
-                        {
-                            <option selected="@(category.CategoryId == Model.CategoryId)"
-                                    value="@category.CategoryId">
-                                @category.CategoryName
-                            </option>
-                        }
-                    </select>
-                </div>
+            <div class="search-field">
+                <label class="visually-hidden" for="sterm">Search instruments</label>
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <input type="search"
+                       class="form-control"
+                       value="@Model.STerm"
+                       id="sterm"
+                       name="sterm"
+                       placeholder="Search by name, e.g. violin" />
+            </div>
 
-                <div class="col-12">
-                    <label class="visually-hidden" for="sterm">Search by title</label>
-                    <input type="text"
-                           class="form-control"
-                           value="@Model.STerm"
-                           id="sterm"
-                           name="sterm"
-                           placeholder="Search by title..." />
-                </div>
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-emerald px-4">Search</button>
+                @if (isFiltered)
+                {
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-light px-3">Clear</a>
+                }
+            </div>
+        </form>
 
-                <div class="col-12 d-flex gap-2">
-                    <button type="submit" class="btn btn-emerald px-4">
-                        Search
-                    </button>
-
-                
-                    <a href="~/Home/Index" class="btn btn-outline-light px-4">
-                        Reset
-                    </a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Products Grid -->
-        <div class="row g-3">
-            @foreach (var product in Model.Products)
+        <p class="result-meta" aria-live="polite">
+            @(productCount == 1 ? "1 instrument" : $"{productCount} instruments")
+            @if (!string.IsNullOrWhiteSpace(Model.STerm))
             {
-                <div class="col-6 col-sm-4 col-md-3 col-lg-3 d-flex">
-                    <div class="product-card w-100 h-100 d-flex flex-column">
+                <text> matching “@Model.STerm”</text>
+            }
+        </p>
 
-                        @if (string.IsNullOrEmpty(product.Image))
-                        {
-                            <img src="/images/NoImage.png"
-                                 class="w-100"
-                                 style="aspect-ratio: 1 / 1; object-fit: contain; padding: 14px;">
-                        }
-                        else
-                        {
-                            <img src="/images/@product.Image"
-                                 class="w-100 product-img">
-                        }
+        @if (productCount == 0)
+        {
+            <div class="empty-state" style="min-height: 40vh;">
+                <span class="empty-icon" aria-hidden="true"><i class="bi bi-search"></i></span>
+                <h2>Nothing matches that search</h2>
+                <p>Try a shorter search term or pick a different category. New instruments are added as sellers send them in.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-light px-4">Show all instruments</a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-3 g-lg-4">
+                @foreach (var product in Model.Products)
+                {
+                    var inStock = product.Quantity > 0;
 
-                        <div class="p-3 d-flex flex-column h-100">
-                            <h4 class="fw-bold mb-2 text-truncate product-title" title="@product.ProductName">
-                                @product.ProductName
-                            </h4>
-
-                            <div class="product-meta mb-2 text-truncate">
-                                <span class="text-white-50">Category:</span> @product.CategoryName
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <article class="product-card">
+                            <div class="product-media @(inStock ? "" : "is-sold-out")">
+                                <img src="/images/@(string.IsNullOrEmpty(product.Image) ? "NoImage.png" : product.Image)"
+                                     alt="@product.ProductName"
+                                     loading="lazy"
+                                     width="400" height="400">
+                                @if (!inStock)
+                                {
+                                    <span class="stock-flag">Sold out</span>
+                                }
+                                else if (product.Quantity <= 2)
+                                {
+                                    <span class="stock-flag is-low">Only @product.Quantity left</span>
+                                }
+                                else
+                                {
+                                    <span class="stock-flag">@product.Quantity in stock</span>
+                                }
                             </div>
 
-                           
+                            <div class="product-body">
+                                <div class="product-category">@product.CategoryName</div>
+                                <h2 class="product-title" title="@product.ProductName">@product.ProductName</h2>
 
-                            
-
-                            @if(product.Quantity > 0)
-                            {
-                                <div class="text-white mb-3">
-                                    <span class="text-white-50">Quantity:</span>
-                                    <span class="fw-semibold">@product.Quantity </span>
+                                <div class="product-price">
+                                    @product.Price.ToString("#,0.##")<span class="currency">₪</span>
                                 </div>
 
-                                <div class="text-white mb-3">
-                                    <span class="text-white-50">Price:</span>
-                                    <span class="fw-semibold">@product.Price ₪</span>
-                                </div>
-
-                                <div class="mt-auto">
+                                @if (!inStock)
+                                {
+                                    <button type="button" class="btn btn-quiet w-100" disabled>Sold out</button>
+                                }
+                                else if (isSignedIn)
+                                {
                                     <button type="button"
-                                            onclick="add(@product.ProductId)"
-                                            class="btn btn-emerald w-100">
-                                        Add to Cart
+                                            class="btn btn-emerald w-100 js-add-to-cart"
+                                            data-product-id="@product.ProductId">
+                                        <span class="btn-label-default">Add to cart</span>
+                                        <span class="btn-label-done"><i class="bi bi-check2 me-1" aria-hidden="true"></i>Added</span>
                                     </button>
-                                </div>
-
-                            }
-
-                            else
-                            {
-                                <div class="mt-auto">
-                                    <span class="border border-emerald text-emerald w-100 d-block text-center py-2 text-white">
-                                        Out of Stock
-                                    </span>
-                                </div>
-                            }
-
-
-                          
-                           
-                        </div>
-
+                                }
+                                else
+                                {
+                                    <a class="btn btn-emerald w-100" href="@loginUrl">Add to cart</a>
+                                }
+                            </div>
+                        </article>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        }
 
     </div>
 </div>
 
 @section Scripts {
     <script>
-        // Make it global for inline onclick handlers
-        window.add = async function (productId) {
+        document.addEventListener("click", async function (event) {
+            const button = event.target.closest(".js-add-to-cart");
+            if (!button || button.disabled) return;
+
+            button.disabled = true;
             try {
-                const response = await fetch(`/Cart/AddItem?productId=${productId}`);
+                const response = await fetch(`/Cart/AddItem?productId=${button.dataset.productId}`);
+                const isJson = (response.headers.get("content-type") || "").includes("application/json");
 
-                if (response.ok) {
-                    const result = await response.json();
-
-                    const cartCountEl = document.getElementById("cartCount");
-                    if (cartCountEl) {
-                        cartCountEl.innerHTML = result;
-                        window.location.href = "#cartCount";
-                    }
-                } else {
-                    console.log("Request failed:", response.status);
+                if (response.redirected || !isJson) {
+                    window.location.href = response.url;
+                    return;
                 }
+                if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+
+                window.setCartCount(await response.json(), true);
+                button.classList.add("is-added");
+                setTimeout(() => button.classList.remove("is-added"), 1800);
             } catch (err) {
-                console.log(err);
+                console.error(err);
+                button.querySelector(".btn-label-default").textContent = "Try again";
+            } finally {
+                button.disabled = false;
             }
-        }
+        });
     </script>
 }

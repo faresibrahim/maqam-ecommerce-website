@@ -1,139 +1,95 @@
-﻿@model ShoppingCart
+@model ShoppingCart
 @{
-    ViewData["Title"] = "GetUserCart";
+    ViewData["Title"] = "Your cart";
 }
 
-<div class="page-surface py-4">
+<div class="page-surface pb-5">
     <div class="container">
 
         @if (Model != null && Model.CartDetails != null && Model.CartDetails.Count > 0)
         {
-            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            var itemCount = Model.CartDetails.Sum(item => item.Quantity);
+            var total = Model.CartDetails.Sum(item => item.Product.Price * item.Quantity);
+
+            <header class="page-head">
                 <div>
-                    <h1 class="h4 fw-bold text-white mb-1">My Cart</h1>
-                    <div class="cart-muted small">Review your items before checkout.</div>
+                    <h1 class="page-title">Your cart</h1>
+                    <p class="page-lede">@(itemCount == 1 ? "1 item" : $"{itemCount} items") ready for checkout.</p>
                 </div>
-
-                <a asp-controller="Home" asp-action="Index" class="btn btn-emerald-outline">
-                    Continue Shopping
+                <a asp-controller="Home" asp-action="Index" class="text-link">
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i> Continue shopping
                 </a>
-            </div>
+            </header>
 
-            <div class="cart-card p-3 p-md-4">
-                <div class="table-responsive">
-                    <table class="table cart-table table-dark mb-0" style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
-                        <thead>
-                            <tr>
-                                <th style="min-width: 180px;">Product</th>
-                                <th style="width: 120px;">Image</th>
-                                <th style="min-width: 140px;">Category</th>
-                                <th style="min-width: 160px;">Unit Price (NIS)</th>
-                                <th style="min-width: 140px;">Total</th>
-                                <th style="min-width: 140px;">Action</th>
-                            </tr>
-                        </thead>
+            <div class="cart-layout">
+                <ul class="cart-card cart-lines">
+                    @foreach (var item in Model.CartDetails)
+                    {
+                        var atStockLimit = item.Quantity >= item.Product.Stocks.Quantity;
 
-                        <tbody>
-                            @foreach (var item in Model.CartDetails)
-                            {
-                                <tr>
-                                    <td class="text-white fw-semibold">
-                                        @item.Product.ProductName
-                                    </td>
+                        <li class="cart-line">
+                            <img src="/images/@(string.IsNullOrEmpty(item.Product.Image) ? "NoImage.png" : item.Product.Image)"
+                                 alt="" class="product-thumb" width="72" height="72" />
 
-                                    <td>
-                                        @if (string.IsNullOrEmpty(item.Product.Image))
-                                        {
-                                            <img src="/images/NoImage.png" alt="No Image" class="product-thumb" />
-                                        }
-                                        else
-                                        {
-                                            <img src="/images/@item.Product.Image" alt="@item.Product.ProductName" class="product-thumb" />
-                                        }
-                                    </td>
+                            <div>
+                                <h2 class="cart-line-name">@item.Product.ProductName</h2>
+                                <div class="cart-line-meta">
+                                    @item.Product.Category.CategoryName · @item.Product.Price.ToString("#,0.##") ₪ each
+                                </div>
+                                @if (atStockLimit)
+                                {
+                                    <div class="stock-note mt-1">That's all we have in stock</div>
+                                }
+                            </div>
 
-                                    <td class="cart-muted">
-                                        @item.Product.Category.CategoryName
-                                    </td>
+                            <div class="cart-line-end">
+                                <div class="cart-line-total">@((item.Product.Price * item.Quantity).ToString("#,0.##")) ₪</div>
+                                <div class="qty-stepper" role="group" aria-label="Quantity of @item.Product.ProductName">
+                                    <a href="/Cart/RemoveItem?productId=@item.ProductId"
+                                       aria-label="@(item.Quantity == 1 ? "Remove" : "Decrease quantity of") @item.Product.ProductName">
+                                        <i class="bi @(item.Quantity == 1 ? "bi-trash3" : "bi-dash")" aria-hidden="true"></i>
+                                    </a>
+                                    <output aria-live="polite">@item.Quantity</output>
+                                    @if (atStockLimit)
+                                    {
+                                        <span aria-disabled="true" title="No more in stock"><i class="bi bi-plus" aria-hidden="true"></i></span>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Cart/AddItem?productId=@item.ProductId&redirect=1"
+                                           aria-label="Increase quantity of @item.Product.ProductName">
+                                            <i class="bi bi-plus" aria-hidden="true"></i>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
 
-                                    <td class="text-white">
-                                        <span class="cart-muted">@item.Product.Price ₪</span>
-                                        <span class="cart-muted"> × </span>
-                                        <span class="fw-semibold">@item.Quantity</span>
-                                    </td>
-
-                                    <td class="text-white fw-semibold">
-                                        @(item.Product.Price* item.Quantity) ₪
-                                    </td>
-
-                                    <td>
-                                       
-                                        <div class="d-flex align-items-center gap-2">
-                                            @if (item.Quantity < item.Product.Stocks.Quantity)
-                                            {
-                                                <a class="btn btn-emerald qty-btn"
-                                                href="/Cart/AddItem?productId=@item.ProductId&&redirect=1"
-                                                title="Increase quantity">
-                                                    +
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <span style=" color: red;border: 1px solid red; padding: 5px 8px;
-                                                border-radius: 5px;">Out of Stock</span>
-
-                                              
-                                            }
-
-                                            <a class="btn btn-outline-light qty-btn"
-                                               href="/Cart/RemoveItem?productId=@item.ProductId"
-                                               title="Decrease quantity">
-                                                −
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-
-                    </table>
-                </div>
-
-                <hr class="my-4" style="border-color: rgba(255,255,255,0.12);" />
-
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                    <div class="text-white">
-                        <div class="cart-muted small">Total</div>
-                        <div class="h4 fw-bold mb-0">
-                            @(Model.CartDetails.Select(item => item.Product.Price * item.Quantity).Sum()) ₪
-                        </div>
+                <aside class="cart-card summary-card" aria-labelledby="summary-title">
+                    <h2 id="summary-title">Order summary</h2>
+                    <div class="summary-row">
+                        <span>Items</span>
+                        <span>@itemCount</span>
                     </div>
-
-                    <div class="d-flex gap-2">
-                        <a class="btn btn-outline-light px-4" asp-controller="Home" asp-action="Index">
-                            Back
-                        </a>
-                        <a class="btn btn-emerald px-4" href="/Cart/Checkout">
-                            Checkout
-                        </a>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span class="amount">@total.ToString("#,0.##") <span class="fs-6 text-white-50">₪</span></span>
                     </div>
-                </div>
+                    <a class="btn btn-emerald btn-lg w-100" asp-controller="Cart" asp-action="Checkout">
+                        Checkout
+                    </a>
+                </aside>
             </div>
         }
         else
         {
-            <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-                <div class="text-center">
-                    <h1 class="fw-bold display-6 text-white mb-2">
-                        Your Cart is Empty
-                    </h1>
-                    <p class="cart-muted mb-4">
-                        Looks like you haven’t added anything yet.
-                    </p>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-emerald px-4">
-                        Start Shopping
-                    </a>
-                </div>
+            <div class="empty-state">
+                <span class="empty-icon" aria-hidden="true"><i class="bi bi-bag"></i></span>
+                <h1>Your cart is empty</h1>
+                <p>Looks like you haven’t added anything yet. Browse the instruments our team has reviewed and listed.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-emerald px-4">Start shopping</a>
             </div>
         }
 

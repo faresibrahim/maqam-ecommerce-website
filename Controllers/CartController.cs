@@ -55,7 +55,7 @@ namespace MusicShoppingCartMvcUI.Controllers
             bool isCheckedOut = await _cartRepo.DoCheckout(model);
             if (!isCheckedOut)
             {
-                RedirectToAction(nameof(OrderFailure));
+                return RedirectToAction(nameof(OrderFailure));
             }
             return RedirectToAction(nameof(OrderSuccess)); //nameof is a C# operator that returns the name of a method
                                                            //as a string. It is used here to avoid hardcoding the action name as a string,

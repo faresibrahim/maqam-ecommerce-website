@@ -9,25 +9,21 @@
     }
 }
 
-<div class="page-surface py-4">
+<div class="page-surface pb-5">
     <div class="container">
 
-        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <header class="page-head">
             <div>
-                <h1 class="h4 fw-bold text-white mb-1">Manage your account</h1>
-                <div class="text-white-50 small">Change your account settings</div>
+                <h1 class="page-title">Account settings</h1>
+                <p class="page-lede">Update your profile, email, and password.</p>
             </div>
-
-            <a asp-area="" asp-controller="Home" asp-action="Landing" class="btn btn-emerald-outline">
-                Back to Home
-            </a>
-        </div>
+        </header>
 
         <div class="cart-card p-3 p-md-4">
             <div class="row g-4">
 
                 <div class="col-md-3">
-                    <div class="about-card p-3">
+                    <div class="pe-md-2">
                         <partial name="_ManageNav" />
                     </div>
                 </div>

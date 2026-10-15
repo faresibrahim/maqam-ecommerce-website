@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.Framework;
-using System.ComponentModel.DataAnnotations;
-using RequiredAttribute = Microsoft.Build.Framework.RequiredAttribute;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MusicShoppingCartMvcUI.Models.DTOs
 {
@@ -8,6 +6,7 @@ namespace MusicShoppingCartMvcUI.Models.DTOs
     {
         [Required]
         [MaxLength(30)]
+        [Display(Name = "Full name")]
         public string? Name { get; set; }
 
         [Required]
@@ -16,11 +15,13 @@ namespace MusicShoppingCartMvcUI.Models.DTOs
         public string? Email { get; set; }
 
         [Required]
+        [Display(Name = "Mobile number")]
         public string? MobileNumber { get; set; }
         [Required]
-        [MaxLength]
+        [MaxLength(200)]
         public string? Address { get; set; }
         [Required]
+        [Display(Name = "Payment method")]
         public string? PaymentMethod { get; set; }
     }
 }

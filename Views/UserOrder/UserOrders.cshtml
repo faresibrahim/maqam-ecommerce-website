@@ -1,159 +1,90 @@
-﻿@model IEnumerable<Order>
+@model IEnumerable<Order>
 @{
-    ViewData["Title"] = "My Orders";
+    ViewData["Title"] = "My orders";
 }
 
-<div class="page-surface py-4">
-    <div class="container">
-
-        <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
-            <div>
-                <h1 class="h4 fw-bold text-white mb-1">My Orders</h1>
-                <div class="text-white-50 small">View your orders and their items.</div>
-            </div>
-
-            <a asp-controller="Home" asp-action="Landing" class="btn btn-emerald-outline">
-                Back
-            </a>
-        </div>
+<div class="page-surface pb-5">
+    <div class="container" style="max-width: 960px;">
 
         @if (Model != null && Model.Any())
         {
-            <div class="cart-card p-3 p-md-4">
-                <div class="table-responsive">
-                    <table class="table table-dark mb-0"
-                           style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
-                        <thead>
-                            <tr>
-                                <th style="min-width:160px;">Order Date</th>
-                                <th style="min-width:180px;">Order Status</th>
-                                <th style="min-width:180px;">Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var order in Model)
-                            {
-                                var hasDetails = order.OrderDetail != null && order.OrderDetail.Count > 0;
-                                var collapseId = $"order_{order.OrderId}";
-
-                                <tr>
-                                    <td class="text-white">
-                                        @order.CreatedAt.ToString("dd-MM-yyyy")
-                                    </td>
-
-                                    <td>
-                                        <span class="badge"
-                                              style="background: rgba(34,197,94,.14); border: 1px solid rgba(34,197,94,.35); color: #fff;">
-                                            @order.OrderStatus.StatusName
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        @if (hasDetails)
-                                        {
-                                            <button class="btn btn-emerald-outline"
-                                                    type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#@collapseId"
-                                                    aria-expanded="false"
-                                                    aria-controls="@collapseId">
-                                                View details
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-white-50 small">No details</span>
-                                        }
-                                    </td>
-                                </tr>
-
-                                @if (hasDetails)
-                                {
-                                    <tr class="collapse" id="@collapseId">
-                                        <td colspan="3">
-                                            <div class="about-card p-3 p-md-4 mt-2">
-
-                                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                                                    <div class="text-white-50 small">
-                                                        Total
-                                                    </div>
-                                                    <div class="h5 fw-bold text-white mb-0">
-                                                        @(order.OrderDetail.Select(item => item.Product.Price * item.Quantity).Sum()) ₪
-                                                    </div>
-                                                </div>
-
-                                                <div class="table-responsive">
-                                                    <table class="table table-dark mb-0"
-                                                           style="--bs-table-bg: transparent; --bs-table-striped-bg: rgba(255,255,255,.03);">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="min-width:200px;">Item</th>
-                                                                <th style="width:120px;">Image</th>
-                                                                <th style="min-width:160px;">Category</th>
-                                                                <th style="min-width:180px;">Unit Price</th>
-                                                                <th style="min-width:140px;">Total</th>
-                                                            </tr>
-                                                        </thead>
-
-                                                        <tbody>
-                                                            @foreach (var item in order.OrderDetail)
-                                                            {
-                                                                <tr>
-                                                                    <td class="text-white fw-semibold">
-                                                                        @item.Product.ProductName
-                                                                    </td>
-
-                                                                    <td>
-                                                                        @if (string.IsNullOrEmpty(item.Product.Image))
-                                                                        {
-                                                                            <img src="/images/NoImage.png" class="product-thumb" alt="No image" />
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <img src="/images/@item.Product.Image" class="product-thumb" alt="@item.Product.ProductName" />
-                                                                        }
-                                                                    </td>
-
-                                                                    <td class="text-white-50">
-                                                                        @item.Product.Category.CategoryName
-                                                                    </td>
-
-                                                                    <td class="text-white">
-                                                                        <span class="text-white-50">@item.Product.Price ₪</span>
-                                                                        <span class="text-white-50"> × </span>
-                                                                        <span class="fw-semibold">@item.Quantity</span>
-                                                                    </td>
-
-                                                                    <td class="text-white fw-semibold">
-                                                                        @(item.Product.Price* item.Quantity) ₪
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
+            <header class="page-head">
+                <div>
+                    <h1 class="page-title">My orders</h1>
+                    <p class="page-lede">Track each order and see what was in it.</p>
                 </div>
-            </div>
+            </header>
+
+            <ul class="cart-card order-list">
+                @foreach (var order in Model)
+                {
+                    var hasDetails = order.OrderDetail != null && order.OrderDetail.Count > 0;
+                    var collapseId = $"order_{order.OrderId}";
+                    var itemCount = hasDetails ? order.OrderDetail!.Sum(item => item.Quantity) : 0;
+                    var total = hasDetails ? order.OrderDetail!.Sum(item => item.Product.Price * item.Quantity) : 0;
+
+                    <li class="order-row">
+                        <div class="order-summary">
+                            <div>
+                                <div class="order-date">@order.CreatedAt.ToString("d MMMM yyyy")</div>
+                                <div class="order-sub">
+                                    @(itemCount == 1 ? "1 item" : $"{itemCount} items")
+                                    @if (hasDetails)
+                                    {
+                                        <text> · @total.ToString("#,0.##") ₪</text>
+                                    }
+                                </div>
+                            </div>
+
+                            <span class="status-pill">@order.OrderStatus.StatusName</span>
+
+                            @if (hasDetails)
+                            {
+                                <button class="btn btn-outline-light btn-sm order-toggle"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#@collapseId"
+                                        aria-expanded="false"
+                                        aria-controls="@collapseId">
+                                    Details <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i>
+                                </button>
+                            }
+                        </div>
+
+                        @if (hasDetails)
+                        {
+                            <div class="collapse" id="@collapseId">
+                                <ul class="order-detail cart-lines">
+                                    @foreach (var item in order.OrderDetail!)
+                                    {
+                                        <li class="cart-line">
+                                            <img src="/images/@(string.IsNullOrEmpty(item.Product.Image) ? "NoImage.png" : item.Product.Image)"
+                                                 alt="" class="product-thumb" width="72" height="72" />
+                                            <div>
+                                                <h2 class="cart-line-name">@item.Product.ProductName</h2>
+                                                <div class="cart-line-meta">
+                                                    @item.Product.Category.CategoryName · @item.Product.Price.ToString("#,0.##") ₪ × @item.Quantity
+                                                </div>
+                                            </div>
+                                            <div class="cart-line-end">
+                                                <div class="cart-line-total">@((item.Product.Price * item.Quantity).ToString("#,0.##")) ₪</div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </li>
+                }
+            </ul>
         }
         else
         {
-            <div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
-                <div class="text-center">
-                    <h1 class="fw-bold display-6 text-white mb-2">No Orders</h1>
-                    <p class="cart-muted mb-4">You haven’t placed any orders yet.</p>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-emerald px-4">
-                        Start Shopping
-                    </a>
-                </div>
+            <div class="empty-state">
+                <span class="empty-icon" aria-hidden="true"><i class="bi bi-box-seam"></i></span>
+                <h1>No orders yet</h1>
+                <p>When you place an order, it will show up here with its status.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-emerald px-4">Start shopping</a>
             </div>
         }
 

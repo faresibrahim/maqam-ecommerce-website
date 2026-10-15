@@ -22,7 +22,7 @@ namespace MusicShoppingCartMvcUI.Controllers
 
         public async Task<IActionResult> Index(string sTerm="", int categoryId=0)
         {
-            
+            sTerm ??= "";
             IEnumerable<Product> products = await _homeRepository.DisplayProducts(sTerm,categoryId);
             IEnumerable<Category> categories = await _homeRepository.DisplayCategories();
             ProductDisplayModel productModel = new ProductDisplayModel

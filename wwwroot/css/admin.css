@@ -16,7 +16,7 @@ html, body {
     padding: 0;
     background: var(--admin-bg);
     color: var(--admin-text);
-    font-family: inherit;
+    font-family: var(--font-body);
 }
 
 .admin-body {
